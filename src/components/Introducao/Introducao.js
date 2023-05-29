@@ -1,6 +1,4 @@
 import { StyleSheet, Text, View, Pressable, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-//import { Icon } from '@rneui/themed';
 
 const PlaceholderImage = require('./../../../assets/logo-introducao.png');
 
