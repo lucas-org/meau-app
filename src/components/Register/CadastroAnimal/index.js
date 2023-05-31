@@ -245,7 +245,7 @@ export default function CadastroAnimal({ navigation }) {
                                 onChangeText={handleChange('historia')}
                             />
                         </View>
-                        <Button mode="contained" onPress={handleSubmit} style={styles.button}/>
+                        <Button mode="contained" onPress={handleSubmit}>ENVIAR</Button>
                     </View>
                 )}
             </Formik>
@@ -266,17 +266,6 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         width: 180,
         height: 180,
-    },
-    button: {
-        backgroundColor: '#ffd358',
-        padding: 16,
-        borderRadius: 4,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#434343',
-        fontWeight: 'bold',
-        fontSize: 18,
     },
     contentContainer: {
         paddingVertical: 20
