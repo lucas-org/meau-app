@@ -6,6 +6,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
+import animalService from '../../../services/animalService';
+
 export default function CadastroAnimal({ navigation }) {
 
     const [refresh, setRefresh] = useState(false);

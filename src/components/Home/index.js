@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import CadastroPessoal from '../Register/CadastroPessoal';
 import CadastroAnimal from '../Register/CadastroAnimal';
 import { useEffect, useState } from 'react';
-import { auth } from '../../config/firebase/firebaseConfig';
+import { auth } from '../../config/firebase/firebase';
 
 
 export default function Home({ navigation }) {

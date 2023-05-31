@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import animalService from '../../services/animalService';
 
 const PlaceholderImage = require('./../../../assets/logo-introducao.png');
 
@@ -8,7 +9,7 @@ export default function Intruducao({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
-
+        {console.log(animalService.getAnimals().then((res) => console.log(res)))}
         <Text style={{
           fontStyle: 'italic',
           fontSize: 72, color: '#ffd358',
