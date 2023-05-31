@@ -2,6 +2,7 @@ import { TouchableOpacity, ScrollView, Text, View, StyleSheet } from 'react-nati
 import React, { useEffect, useState } from 'react';
 //import RadioButton from './RadioButton';
 import { TextInput, RadioButton, IconButton, Checkbox, Button } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -30,6 +31,23 @@ export default function CadastroAnimal({ navigation }) {
         { label: 'Acompanhamento pós adoção', value: 'Acompanhamento pós adoção' }
     ];
 
+    const [image, setImage] = useState(null);
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        //console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
+
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
             {/* <Text>Tenho Interesse em cadastrar um animal para:</Text>
@@ -51,9 +69,10 @@ export default function CadastroAnimal({ navigation }) {
                         </View>
                         <View>
                             <Text style={styles.label}>FOTOS DO ANIMAL</Text>
-                            <TouchableOpacity style={styles.imagePicker}>
+                            <TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
                                 <IconButton icon="plus-circle-outline" size={24} color="#9D9D9E" />
                                 <Text style={{ color: '#9D9D9E' }}>Adicionar Foto</Text>
+                                {image && <Image source={{ uri: image }} style={{ width: 100, height: 100 }} />}
                             </TouchableOpacity>
                         </View>
                         <View>
