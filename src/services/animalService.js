@@ -1,5 +1,5 @@
 import { db } from '../config/firebase/firebase';
-import { query, collection, getDocs } from 'firebase/firestore';
+import { query, collection, getDocs, addDoc } from 'firebase/firestore';
 
 const animalService = {
     async getAnimals() {

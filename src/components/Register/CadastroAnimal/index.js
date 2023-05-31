@@ -56,7 +56,11 @@ export default function CadastroAnimal({ navigation }) {
             <RadioButton options={options} /> */}
             <Formik
                 initialValues={{ nome: '', especie: '', sexo: '', porte: '', idade: '', temperamento: [], saude: [], doencas: '', exigencias: [], tempoAcompanhamentoPosAdocao: '', historia: '' }}
-                onSubmit={values => console.log(values)}
+                onSubmit={values => {
+                    //values.foto = [image];
+                    animalService.createAnimal(values).then((res) => console.log(res));
+                }}
+                
             >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                     <View>
