@@ -1,4 +1,4 @@
-import { TouchableOpacity, ScrollView, Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, ScrollView, Text, View, StyleSheet, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 //import RadioButton from './RadioButton';
 import { TextInput, RadioButton, IconButton, Checkbox, Button } from 'react-native-paper';
@@ -43,8 +43,6 @@ export default function CadastroAnimal({ navigation }) {
             quality: 1,
         });
 
-        //console.log(result);
-
         if (!result.canceled) {
             setImage(result.assets[0].uri);
         }
@@ -57,7 +55,10 @@ export default function CadastroAnimal({ navigation }) {
             <Formik
                 initialValues={{ nome: '', especie: '', sexo: '', porte: '', idade: '', temperamento: [], saude: [], doencas: '', exigencias: [], tempoAcompanhamentoPosAdocao: '', historia: '' }}
                 onSubmit={values => {
-                    //values.foto = [image];
+                    values.foto = image;
+                    values.id = '1';
+                    values.paraAdocao = true;
+                    values.responsavelId = '1';
                     animalService.createAnimal(values).then((res) => console.log(res));
                 }}
                 
@@ -162,7 +163,6 @@ export default function CadastroAnimal({ navigation }) {
                                                     values.temperamento.push(item.value);
                                                 }
                                                 setRefresh(!refresh);
-                                                console.log(values.temperamento);
                                             }}
                                         />
                                         <Text>{item.label}</Text>
@@ -185,7 +185,6 @@ export default function CadastroAnimal({ navigation }) {
                                                 values.saude.push(item.value);
                                             }
                                             setRefresh(!refresh);
-                                            console.log(values.saude);
                                         }}
                                     />
                                     <Text>{item.label}</Text>
@@ -212,7 +211,6 @@ export default function CadastroAnimal({ navigation }) {
                                                 values.exigencias.push(item.value);
                                             }
                                             setRefresh(!refresh);
-                                            console.log(values.exigencias);
                                         }}
                                     />
                                     <Text>{item.label}</Text>

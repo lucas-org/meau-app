@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View, Pressable, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import animalService from '../../services/animalService';
+import { useState, useEffect } from 'react';
 
 const PlaceholderImage = require('./../../../assets/logo-introducao.png');
 
 export default function Intruducao({ navigation }) {
 
+  const [animal, setAnimal] = useState(null);
+
+  useEffect(() => {
+    animalService.getAnimalById('1').then((res) => setAnimal(res));
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
-        {console.log(animalService.getAnimals().then((res) => console.log(res)))}
+        {console.log(animalService.getAnimals().then((res) => console.log(res.map((animal) => animal?.Id))))}
+        {console.log(animal)}
+
         <Text style={{
           fontStyle: 'italic',
           fontSize: 72, color: '#ffd358',
@@ -23,6 +31,9 @@ export default function Intruducao({ navigation }) {
             Aqui você pode adotar, doar e ajudar{"\n"}
             {"\t"}cães e gatos com facilidade.{"\n"}
             {"\t"}{"\t"}Qual o seu interesse?</Text>
+        </View>
+        <View>
+          {animal?.foto && <Image source={{ uri: animal?.foto }} style={{ width: 100, height: 100 }} />}
         </View>
 
         <View style={styles.footerContainer}>
