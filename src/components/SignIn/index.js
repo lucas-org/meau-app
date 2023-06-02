@@ -1,10 +1,7 @@
 
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
-// Autentencação
-//import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-//import { auth } from '../../config/firebase/firebaseConfig';
-
+import { signInUser } from '../../config/firebase/autenticacao';
 import { TextInput, Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -37,7 +34,10 @@ export default function SignIn({ navigation }) {
     <SafeAreaView style={{ marginTop: 64 }}>
       <Formik
         initialValues={{ email: '', senha: '' }}
-        onSubmit={values => console.log(values)}
+        onSubmit={(values) => {
+          signInUser(values.email, values.senha);
+          navigation.navigate('Home');
+        }}
       >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View>
@@ -77,9 +77,9 @@ export default function SignIn({ navigation }) {
                 ENTRAR COM GOOGLE
               </Button>
               <Button
-                onPress={() => navigation.navigate('Tela Erro Autorizacao')}
+                onPress={() => navigation.navigate('Cadastro Pessoal')}
               >
-                teste tela de erro de autorização
+                cadastrar
               </Button>
 
             </View>

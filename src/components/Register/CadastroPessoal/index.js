@@ -1,17 +1,41 @@
 import { Feather } from '@expo/vector-icons';
-import { Text, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, ScrollView, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import { TextInput, RadioButton, IconButton, Checkbox, Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { signUpUser } from '../../../config/firebase/autenticacao';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function CadastroPessoal({ navigation }) {
+
+    const [image, setImage] = useState(null);
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
+
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <Text style={styles.info} > As informacoes preenchidas serao  divulgas apenas para a pessoal com a qual voce realizar o processo de adoção e/ou apadrinhamento,
                 após a formalização do processo.</Text>
             <Formik
-                initialValues={{ nome: '', idade: '', email: '', estado: '', cidade: '', endereco: '', telefone: '', nomeUsuario: '', senha: '', confirmacaoSenha: '' }}
-                onSubmit={values => console.log(values)}
+                initialValues={{ nome: '', idade: '', email: '', estado: '', cidade: '', endereco: '', telefone: '', username: '', senha: '', confirmacaoSenha: '' }}
+                onSubmit={(values) => {
+                    delete values.confirmacaoSenha;
+                    values.foto = image;
+                    signUpUser(values.nome, values.idade, values.email, values.estado, values.cidade, values.endereco, values.telefone, values.username, values.senha, values.foto);
+                    navigation.navigate('Home');
+                }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                     <View>
@@ -61,9 +85,9 @@ export default function CadastroPessoal({ navigation }) {
                         <Text style={styles.text}> INFORMAÇÕES DE PERFIL </Text>
                         <TextInput
                             placeholder="Nome de usuário"
-                            onChangeText={handleChange('nomeUsuario')}
-                            onBlur={handleBlur('nomeUsuario')}
-                            value={values.nomeUsuario}
+                            onChangeText={handleChange('username')}
+                            onBlur={handleBlur('username')}
+                            value={values.username}
                         />
                         <TextInput
                             placeholder="Senha"
@@ -79,9 +103,10 @@ export default function CadastroPessoal({ navigation }) {
                         />
 
                         <Text style={styles.text}> FOTO DE PERFIL </Text>
-                        <TouchableOpacity style={styles.imagePicker}>
+                        <TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
                             <Feather name="plus-circle" size={24} color="#9D9D9E" />
                             <Text style={{ color: '#9D9D9E' }}>Adicionar Foto</Text>
+                            {image && <Image source={{ uri: image }} style={{ width: 180, height: 180 }} />}
                         </TouchableOpacity>
 
                         <Button onPress={handleSubmit}>FAZER CADASTRO</Button>

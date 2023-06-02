@@ -41,6 +41,7 @@ export default function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={user ? "Home" : "Introducao"}>
+            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             {user ? (
               <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             ) : (
