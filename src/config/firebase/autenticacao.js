@@ -1,3 +1,4 @@
+import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { db } from './firebase';
 import { collection, addDoc } from "firebase/firestore";

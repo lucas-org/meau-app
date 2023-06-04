@@ -51,17 +51,17 @@ export default function App() {
     <PaperProvider>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Drawer.Navigator>
+          <Drawer.Navigator initialRouteName={user ? "Home" : "Introducao"}>
             {user ? (
               <>
                 <Drawer.Screen name='Introducao' component={Introducao} options={{ title: '', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#fff' } }} />
                 <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#cfe9e5' } }} />
                 <Drawer.Screen name="Cadastro Pessoal" component={CadastroPessoal} options={{ title: 'Cadastro Pessoal', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#cfe9e5' } }} />
                 <Drawer.Screen name="SignIn" component={SignIn} options={{ title: 'Login', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#cfe9e5' } }} />
-                <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
-              </>
+                <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao} options={{ headerShown: false }} />
+              </>              
             ):(
-              <Drawer.Screen name="Home" component={Home}/>
+              <Drawer.Screen name="Home" component={Home} options={{ headerShown: false }} />
             )}
           </Drawer.Navigator>
         </NavigationContainer>
