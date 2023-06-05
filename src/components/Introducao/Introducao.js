@@ -1,10 +1,18 @@
 import { StyleSheet, Text, View, Pressable, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import animalService from '../../services/animalService';
 import { useState, useEffect } from 'react';
+import { auth } from '../../config/firebase/firebase';
 
 const PlaceholderImage = require('./../../../assets/logo-introducao.png');
 
+import SignIn from '../SignIn';
+
 export default function Intruducao({ navigation }) {
+  function signOut() {
+    auth.signOut()
+    console.log('Saindo!');
+    return <SignIn />
+  }
 
   const [animal, setAnimal] = useState(null);
 
@@ -50,8 +58,8 @@ export default function Intruducao({ navigation }) {
         </View>
 
         <View style={styles.loginButton}>
-          <Pressable onPress={() => navigation.navigate('SignIn')}>
-            <Text style={{ fontSize: 16, color: '#88c9bf' }}>Login</Text>
+          <Pressable onPress={signOut}>
+            <Text style={{ fontSize: 16, color: '#88c9bf' }}>Sair</Text>
           </Pressable>
         </View>
 

@@ -1,91 +1,88 @@
 
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
-import { signInUser } from '../../config/firebase/autenticacao';
+import { View, Text, SafeAreaView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-import { Formik } from 'formik';
-import * as yup from 'yup';
 
+
+//npm install --save react-firebase-hooks
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from '../../config/firebase/firebase';
+
+import Intruducao from '../Introducao/Introducao';
+import TelaErroAutorizacao from '../Error/TelaErroAutorizacao';
 
 export default function SignIn({ navigation }) {
 
-  /* const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth); */
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   function handleSignIn(e) {
     e.preventDefault();
-    //signInWithEmailAndPassword(email, password);
+    signInWithEmailAndPassword(email, password);
   }
 
-/*   if (loading) {
+  if (loading) {
+    console.log(email);
+    console.log(password);
     return <Text>carregando...</Text>;
   }
 
   if (user) {
-    return console.log(user);
-    <CadastroPessoal />
+    return <Intruducao />
+    //return console.log(user);
+    /*<CadastroPessoal />*/
   }
 
   if (error) {
-    return console.log(error.code);
-  } */
+      console.log(error.code);
+      return <TelaErroAutorizacao />
+  }
 
   return (
     <SafeAreaView style={{ marginTop: 64 }}>
-      <Formik
-        initialValues={{ email: '', senha: '' }}
-        onSubmit={(values) => {
-          signInUser(values.email, values.senha);
-          navigation.navigate('Home');
-        }}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <View>
+      <View>
+        <View>
+          <TextInput
+            placeholder='E-mail'
+            onChangeText={email => setEmail(email)}
+            value={email}
+          />
+          <TextInput
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={password => setPassword(password)}
+            value={password}
+          />
+        </View>
+        <View>
+          <Button
+            onPress={handleSignIn}
+          >
+            ENTRAR
+          </Button>
+          <Button
+            icon="facebook"
+            onPress={() => console.log('facebook')}
+          >
+            ENTRAR COM FACEBOOK
+          </Button>
+          <Button
+            icon="google"
+            onPress={() => console.log('aye')}
+          >
+            ENTRAR COM GOOGLE
+          </Button>
+          <Button
+            onPress={() => navigation.navigate('Cadastro Pessoal')}
+          >
+            cadastrar
+          </Button>
 
-            <View>
-              <TextInput
-                placeholder='E-mail'
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-              />
-              <TextInput
-                placeholder="Password"
-                //secureTextEntry={true}
-                onChangeText={handleChange('senha')}
-                onBlur={handleBlur('senha')}
-                value={values.senha}
-              />
-            </View>
-
-            <View>
-              <Button
-                onPress={handleSignIn}
-              >
-                ENTRAR
-              </Button>
-              <Button
-                icon="facebook"
-                onPress={() => console.log('facebook')}
-              >
-                ENTRAR COM FACEBOOK
-              </Button>
-              <Button
-                icon="google"
-                onPress={() => console.log('aye')}
-              >
-                ENTRAR COM GOOGLE
-              </Button>
-              <Button
-                onPress={() => navigation.navigate('Cadastro Pessoal')}
-              >
-                cadastrar
-              </Button>
-
-            </View>
-          </View>
-        )}
-      </Formik>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }

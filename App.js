@@ -54,14 +54,17 @@ export default function App() {
           <Drawer.Navigator>
             {user ? (
               <>
-                <Drawer.Screen name='Introducao' component={Introducao} options={{ title: '', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#fff' } }} />
-                <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#cfe9e5' } }} />
-                <Drawer.Screen name="Cadastro Pessoal" component={CadastroPessoal} options={{ title: 'Cadastro Pessoal', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#cfe9e5' } }} />
-                <Drawer.Screen name="SignIn" component={SignIn} options={{ title: 'Login', headerLeft: () => <MenuButton />, headerStyle: { backgroundColor: '#cfe9e5' } }} />
+                <Drawer.Screen name='Introducao' component={Introducao} options={{ title: 'Introducao', headerStyle: { backgroundColor: '#fff' } }} />
+                <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
+                <Drawer.Screen name="Cadastro Pessoal" component={CadastroPessoal} options={{ title: 'Cadastro Pessoal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
                 <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
               </>
             ):(
-              <Drawer.Screen name="Home" component={Home}/>
+              <>
+                <Drawer.Screen name="Home" component={Home} options={{ title: 'Home', headerStyle: { backgroundColor: '#cfe9e5' } }}/>
+                <Drawer.Screen name="SignIn" component={SignIn} options={{ title: 'Login', headerStyle: { backgroundColor: '#cfe9e5' } }} />
+                <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
+              </>
             )}
           </Drawer.Navigator>
         </NavigationContainer>
