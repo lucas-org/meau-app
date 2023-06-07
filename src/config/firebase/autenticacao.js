@@ -1,46 +1,43 @@
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import { db, auth } from './firebase';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { db } from './firebase';
 import { collection, addDoc } from "firebase/firestore";
 
+const auth = getAuth();
 
 export const signUpUser = (userDetails) => {
     //deconstruct the users details we will need these later
-    const { nome, idade, email, estado, cidade, endereco, telefone, username, password, foto } = userDetails;
+    const { nome, idade, email, estado, cidade, endereco, telefone, username, senha, foto } = userDetails;
     //user firebase using the appropriate firebase method
-    console.log("Entrou no signUpUser")
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, senha)
         .then((res) => {
             console.log("Resposta da criacao do User: ", res);
             //Once the user creation has happened successfully, we can add the currentUser into firestore
             //with the appropriate details.
             const currentUser = auth.currentUser
-            console.log("currentUser: ", currentUser);
             const uid = currentUser.uid
-            console.log("uid: ", uid);
             //create a user profile object
             const userProfileData = {
                 id: uid,
-                nome: userDetails.nome,
-                idade: userDetails.idade,
-                email: userDetails.email,
-                estado: userDetails.estado,
-                cidade: userDetails.cidade,
-                endereco: userDetails.endereco,
-                telefone: userDetails.telefone,
-                username: userDetails.username,
-                foto: userDetails.foto,
-                createdAt: new Date()
+                nome: nome,
+                idade: idade,
+                email: email,
+                estado: estado,
+                cidade: cidade,
+                endereco: endereco,
+                telefone: telefone,
+                username: username,
+                foto: foto
             }
             // create a users collection in firestore and add the userProfile object
             const usersRef = collection(db, "usuarios");
             addDoc(usersRef, userProfileData)
                 .then(() => {
-                    console.log('User profile created successfully!')
+                    //console.log('User profile created successfully!')
                 }
                 )
                 .catch(error => {
-                    console.log('Something went wrong with added user to firestore: ', error);
+                    //console.log('Something went wrong with added user to firestore: ', error);
                 }
                 )
         })
@@ -80,7 +77,7 @@ export const signOutUser = () => {
 export const currentUser = () => {
     const user = onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log('Current user: ', user);
+            //console.log('Current user: ', user);
         } else {
             console.log('No user signed in!');
         }
