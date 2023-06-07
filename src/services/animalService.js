@@ -6,6 +6,7 @@ const animalService = {
         const q = query(collection(db, "animais"));
         const querySnapshot = await getDocs(q);
         const animals = querySnapshot.docs.map(doc => doc.data());
+        console.log("Document data:", animals);
         return animals;
     },
     async createAnimal(animal) {

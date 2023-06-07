@@ -33,8 +33,11 @@ export default function CadastroPessoal({ navigation }) {
                 onSubmit={(values) => {
                     delete values.confirmacaoSenha;
                     values.foto = image;
+                    console.log("Preparando para cadastrar...")
                     signUpUser(values.nome, values.idade, values.email, values.estado, values.cidade, values.endereco, values.telefone, values.username, values.senha, values.foto);
-                    navigation.navigate('Home');
+
+                    
+                    //navigation.navigate('Home');
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (

@@ -28,6 +28,8 @@ import MenuButton from './src/utils/MenuButton';
 import CadastroAnimal from './src/components/Register/CadastroAnimal';
 import CadastroPessoal from './src/components/Register/CadastroPessoal';
 import Introducao from './src/components/Introducao/Introducao';
+import ListaAnimais from './src/components/ListaAnimais';
+import { currentUser } from './src/config/firebase/autenticacao';
 
 
 import 'react-native-gesture-handler';
@@ -45,6 +47,7 @@ export default function App() {
       setUser(_user)
     })
     return unsubscribe;
+    //setUser(currentUser());
   }, []);
 
   return (
@@ -56,13 +59,14 @@ export default function App() {
               <>
                 <Drawer.Screen name='Introducao' component={Introducao} options={{ title: 'Introducao', headerStyle: { backgroundColor: '#fff' } }} />
                 <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
-                <Drawer.Screen name="Cadastro Pessoal" component={CadastroPessoal} options={{ title: 'Cadastro Pessoal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
                 <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
+                <Drawer.Screen name='Lista Animais' component={ListaAnimais}/>
               </>
             ):(
               <>
-                <Drawer.Screen name="Home" component={Home} options={{ title: 'Home', headerStyle: { backgroundColor: '#cfe9e5' } }}/>
                 <Drawer.Screen name="SignIn" component={SignIn} options={{ title: 'Login', headerStyle: { backgroundColor: '#cfe9e5' } }} />
+                <Drawer.Screen name="Cadastro Pessoal" component={CadastroPessoal} options={{ title: 'Cadastro Pessoal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
+                <Drawer.Screen name="Home" component={Home} options={{ title: 'Home', headerStyle: { backgroundColor: '#cfe9e5' } }}/>
                 <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
               </>
             )}
