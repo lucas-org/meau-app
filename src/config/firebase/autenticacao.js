@@ -49,8 +49,11 @@ export const signUpUser = (userDetails) => {
 }
 
 
-export const signInUser = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
+export const signInUser = (userData) => {
+
+    const { email, senha } = userData;
+    
+    signInWithEmailAndPassword(auth, email, senha)
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
