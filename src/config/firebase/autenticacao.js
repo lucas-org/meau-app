@@ -87,3 +87,12 @@ export const currentUser = () => {
     });
     return user;
 }
+
+export const isLogged = () => {
+    const user = currentUser();
+    if (user) {
+        return true;
+    } else {
+        return false;
+    }
+}
