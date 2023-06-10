@@ -29,7 +29,7 @@ import CadastroAnimal from './src/components/Register/CadastroAnimal';
 import CadastroPessoal from './src/components/Register/CadastroPessoal';
 import Introducao from './src/components/Introducao/Introducao';
 import ListaAnimais from './src/components/ListaAnimais';
-import { currentUser } from './src/config/firebase/autenticacao';
+import { currentUser, isLogged } from './src/config/firebase/autenticacao';
 
 
 import 'react-native-gesture-handler';
@@ -43,11 +43,13 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((_user) => {
+    /* const unsubscribe = auth.onAuthStateChanged((_user) => {
       setUser(_user)
     })
-    return unsubscribe;
-    //setUser(currentUser());
+    return unsubscribe; */
+    //setUser(isLogged());
+    //console.log(user);
+    console.log("isLogged: ", isLogged());
   }, []);
 
   return (
@@ -55,7 +57,7 @@ export default function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator>
-            {user ? (
+            {isLogged() ? (
               <>
                 <Drawer.Screen name='Introducao' component={Introducao} options={{ title: 'Introducao', headerStyle: { backgroundColor: '#fff' } }} />
                 <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
