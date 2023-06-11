@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { View, Image } from 'react-native';
 import animalService from '../../services/animalService';
-import { Modal, Portal, Button, Card, Text, PaperProvider } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import CampoInfo from './CampoInfo';
 
 export default function DetalheAnimal(animal) {
-
-    
 
     useEffect(() => {
         animalService.getAnimalById(animal.id).then();

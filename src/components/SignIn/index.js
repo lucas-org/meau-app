@@ -1,18 +1,10 @@
 
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-
-
-//npm install --save react-firebase-hooks
-import { auth } from '../../config/firebase/firebase';
-
-import Intruducao from '../Introducao/Introducao';
-import TelaErroAutorizacao from '../Error/TelaErroAutorizacao';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { signInUser } from '../../config/firebase/autenticacao';
-import { set } from 'react-native-reanimated';
 
 export default function SignIn({ navigation }) {
 

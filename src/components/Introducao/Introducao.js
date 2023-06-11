@@ -1,5 +1,4 @@
-import { StyleSheet, Text, View, Pressable, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-import animalService from '../../services/animalService';
+import { StyleSheet, Text, View, Pressable, Image, SafeAreaView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { auth } from '../../config/firebase/firebase';
 
@@ -13,8 +12,6 @@ export default function Intruducao({ navigation }) {
     console.log('Saindo!');
     return <SignIn />
   }
-
-  const [animal, setAnimal] = useState(null);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
