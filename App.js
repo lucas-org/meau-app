@@ -18,7 +18,7 @@ import CadastroPessoal from './src/components/Register/CadastroPessoal';
 import Introducao from './src/components/Introducao/Introducao';
 import ListaAnimais from './src/components/ListaAnimais';
 import { currentUser, isLogged } from './src/config/firebase/autenticacao';
-
+import { RoutesLogged, RoutesNotLogged } from './src/routes/routes';
 
 import 'react-native-gesture-handler';
 //const Stack = createNativeStackNavigator();
@@ -31,38 +31,19 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((_user) => {
+    auth.onAuthStateChanged((_user) => {
       setUser(_user)
-    })
-    return unsubscribe;
-    //setUser(isLogged());
-    //console.log(user);
-    console.log("isLogged: ", isLogged());
+    });
   }, []);
 
   return (
     <PaperProvider>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <Drawer.Navigator>
-            {user ? (
-              <>
-                <Drawer.Screen name='Introducao' component={Introducao} options={{ title: 'Introducao', headerStyle: { backgroundColor: '#fff' } }} />
-                <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
-                <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
-                <Drawer.Screen name='Lista Animais' component={ListaAnimais}/>
-              </>
-            ):(
-              <>
-                <Drawer.Screen name="SignIn" component={SignIn} options={{ title: 'Login', headerStyle: { backgroundColor: '#cfe9e5' } }} />
-                <Drawer.Screen name="Cadastro Pessoal" component={CadastroPessoal} options={{ title: 'Cadastro Pessoal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
-                <Drawer.Screen name="Home" component={Home} options={{ title: 'Home', headerStyle: { backgroundColor: '#cfe9e5' } }}/>
-                <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
-              </>
-            )}
-          </Drawer.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
+      {user ? (
+        <RoutesLogged />
+      ) : (
+        <RoutesNotLogged />
+      )
+      }
     </PaperProvider>
   );
 }
