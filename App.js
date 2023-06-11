@@ -1,17 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-/*
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-*/
-
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 //import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -43,10 +31,10 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    /* const unsubscribe = auth.onAuthStateChanged((_user) => {
+    const unsubscribe = auth.onAuthStateChanged((_user) => {
       setUser(_user)
     })
-    return unsubscribe; */
+    return unsubscribe;
     //setUser(isLogged());
     //console.log(user);
     console.log("isLogged: ", isLogged());
@@ -57,7 +45,7 @@ export default function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Drawer.Navigator>
-            {isLogged() ? (
+            {user ? (
               <>
                 <Drawer.Screen name='Introducao' component={Introducao} options={{ title: 'Introducao', headerStyle: { backgroundColor: '#fff' } }} />
                 <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerStyle: { backgroundColor: '#cfe9e5' } }} />

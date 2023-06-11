@@ -5,7 +5,6 @@ import { TextInput, Button } from 'react-native-paper';
 
 
 //npm install --save react-firebase-hooks
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from '../../config/firebase/firebase';
 
 import Intruducao from '../Introducao/Introducao';
@@ -27,7 +26,7 @@ export default function SignIn({ navigation }) {
           onSubmit={(values) => {
             setLoading(true);
             console.log("values: ", values)
-            signInUser(values).then(() => {[setLoading(false)]});
+            signInUser(values).then(() => { [setLoading(false)] });
             //navigation.navigate('Home');
           }}
         >
