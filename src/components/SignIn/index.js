@@ -1,47 +1,28 @@
 
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
-import { signInUser } from '../../config/firebase/autenticacao';
+import { View, SafeAreaView } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-
+import { signInUser } from '../../config/firebase/autenticacao';
 
 export default function SignIn({ navigation }) {
 
-  /* const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth); */
-
-  function handleSignIn(e) {
-    e.preventDefault();
-    //signInWithEmailAndPassword(email, password);
-  }
-
-/*   if (loading) {
-    return <Text>carregando...</Text>;
-  }
-
-  if (user) {
-    return console.log(user);
-    <CadastroPessoal />
-  }
-
-  if (error) {
-    return console.log(error.code);
-  } */
+  const [loading, setLoading] = useState(false);
 
   return (
     <SafeAreaView style={{ marginTop: 64 }}>
-      <Formik
-        initialValues={{ email: '', senha: '' }}
-        onSubmit={(values) => {
-          signInUser(values.email, values.senha);
-          navigation.navigate('Home');
-        }}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <View>
-
+      <View>
+        <Formik
+          initialValues={{ email: '', senha: '' }}
+          onSubmit={(values) => {
+            setLoading(true);
+            console.log("values: ", values)
+            signInUser(values).then(() => { [setLoading(false)] });
+            //navigation.navigate('Home');
+          }}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
             <View>
               <TextInput
                 placeholder='E-mail'
@@ -50,42 +31,41 @@ export default function SignIn({ navigation }) {
                 value={values.email}
               />
               <TextInput
-                placeholder="Password"
-                //secureTextEntry={true}
+                placeholder='Senha'
                 onChangeText={handleChange('senha')}
                 onBlur={handleBlur('senha')}
                 value={values.senha}
               />
-            </View>
-
-            <View>
               <Button
-                onPress={handleSignIn}
+                onPress={handleSubmit}
+                loading={loading}
               >
                 ENTRAR
               </Button>
-              <Button
-                icon="facebook"
-                onPress={() => console.log('facebook')}
-              >
-                ENTRAR COM FACEBOOK
-              </Button>
-              <Button
-                icon="google"
-                onPress={() => console.log('aye')}
-              >
-                ENTRAR COM GOOGLE
-              </Button>
-              <Button
-                onPress={() => navigation.navigate('Cadastro Pessoal')}
-              >
-                cadastrar
-              </Button>
-
             </View>
-          </View>
-        )}
-      </Formik>
+          )}
+        </Formik>
+        <View>
+          <Button
+            icon="facebook"
+            onPress={() => console.log('facebook')}
+          >
+            ENTRAR COM FACEBOOK
+          </Button>
+          <Button
+            icon="google"
+            onPress={() => console.log('aye')}
+          >
+            ENTRAR COM GOOGLE
+          </Button>
+          <Button
+            onPress={() => navigation.navigate('Cadastro Pessoal')}
+          >
+            cadastrar
+          </Button>
+
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
