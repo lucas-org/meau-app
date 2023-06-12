@@ -78,14 +78,7 @@ export const signOutUser = () => {
 }
 
 export const currentUser = () => {
-    const user = onAuthStateChanged(auth, (user) => {
-        if (user) {
-            //console.log('Current user: ', user);
-        } else {
-            console.log('No user signed in!');
-        }
-    });
-    return user;
+    return auth.currentUser;
 }
 
 export const isLogged = () => {

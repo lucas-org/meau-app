@@ -8,7 +8,8 @@ import Home from '../components/Home';
 import TelaErroAutorizacao from '../components/Error/TelaErroAutorizacao';
 import CadastroAnimal from '../components/Register/CadastroAnimal';
 import Introducao from '../components/Introducao/Introducao';
-import ListaAnimais from '../components/ListaAnimais';
+import MeusPets from '../components/MeusPets';
+import DetalheAnimal from '../components/DetalheAnimal';
 
 const Drawer = createDrawerNavigator();
 
@@ -35,9 +36,10 @@ export function RoutesLogged(){
             <NavigationContainer>
                 <Drawer.Navigator>
                     <Drawer.Screen name='Introducao' component={Introducao} options={{ title: 'Introducao', headerStyle: { backgroundColor: '#fff' } }} />
+                    <Drawer.Screen name="Detalhe Animal" component={DetalheAnimal} options={{ title: 'Detalhe Animal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
                     <Drawer.Screen name="Cadastro Animal" component={CadastroAnimal} options={{ title: 'Cadastro Animal', headerStyle: { backgroundColor: '#cfe9e5' } }} />
                     <Drawer.Screen name='Tela Erro Autorizacao' component={TelaErroAutorizacao}/>
-                    <Drawer.Screen name='Lista Animais' component={ListaAnimais}/>
+                    <Drawer.Screen name='Meus Pets' component={MeusPets}/>
                 </Drawer.Navigator>
             </NavigationContainer>
         </SafeAreaProvider>
