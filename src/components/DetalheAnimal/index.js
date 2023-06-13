@@ -1,27 +1,25 @@
 import { useState, useEffect } from 'react';
 import { View, Image } from 'react-native';
 import animalService from '../../services/animalService';
-import { Button, Text, IconButton } from 'react-native-paper';
+import { Button, Text, IconButton, Divider } from 'react-native-paper';
 import CampoInfo from './CampoInfo';
 import { StyleSheet } from 'react-native';
-
-const Hr = () => {
-    return (
-        <View
-            style={{
-                borderBottomColor: 'black',
-                borderBottomWidth: StyleSheet.hairlineWidth,
-            }}
-        />
-    );
-}
 
 export default function DetalheAnimal({ route, navigation }) {
 
     const { animal } = route.params;
     console.log(animal);
     useEffect(() => {
-        //animalService.getAnimalById(animal.id).then();
+        navigation.setOptions({ 
+            title: animal.nome, 
+            headerRight: () => <IconButton icon="share-variant" color="#434343" size={30} onPress={() => console.log('Pressed')} />,
+            headerLeft: () => <IconButton icon="arrow-left" color="#434343" size={30} onPress={() => navigation.navigate("Meus Pets")} /> });
+        // see the stack of screens
+        /* navigation.dispatch(state => {
+            // print the stack state
+            console.log(state);
+            return state;
+        }); */
     }, []);
     return (
         <View>
@@ -43,7 +41,7 @@ export default function DetalheAnimal({ route, navigation }) {
                 <View style={{ marginBottom: 16, marginTop: 5 }} >
                     <CampoInfo label="Localização" value={"Nao definida"} />
                 </View>
-                <Hr />
+                <Divider />
                 <View style={styles.campo}>
                     <CampoInfo label="Castrado" value={animal.saude?.includes("castrado") ? "Sim" : "Não"} />
                     <CampoInfo label="Vacinado" value={animal.saude?.includes("vacinado") ? "Sim" : "Não"} />
@@ -52,15 +50,15 @@ export default function DetalheAnimal({ route, navigation }) {
                     <CampoInfo label="Vermifugado" value={animal.saude?.includes("vermifugado") ? "Sim" : "Não"} />
                     <CampoInfo label="Doenças" value={animal.doencas} />
                 </View>
-                <Hr />
+                <Divider />
                 <View style={{ marginBottom: 16, marginTop: 5 }} >
                     <CampoInfo label="Temperamento" value={animal.temperamento.join(", ")} />
                 </View>
-                <Hr />
+                <Divider />
                 <View style={{ marginBottom: 16, marginTop: 5 }} >
                     <CampoInfo label="Exigências" value={animal.exigencias.join(", ")} />
                 </View>
-                <Hr />
+                <Divider />
                 <View style={{ marginBottom: 16, marginTop: 5 }} >
                     <CampoInfo label={"Mais sobre " + animal.nome} value={animal.historia} />
                 </View>

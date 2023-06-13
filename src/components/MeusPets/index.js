@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+ import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import animalService from '../../services/animalService';
 import { Card, Text, IconButton } from 'react-native-paper';
@@ -8,6 +8,9 @@ export default function MeusPets({ navigation }) {
     const [animais, setAnimais] = useState([]);
 
     useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => <IconButton icon="magnify" color="#434343" size={30} onPress={() => console.log('Pressed')} />
+        });
         animalService.getAnimals().then((res) => setAnimais(res));
         console.log(animais);
     }, []);
