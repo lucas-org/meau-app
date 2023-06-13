@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Pressable, Image, SafeAreaView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { auth } from '../../config/firebase/firebase';
+import { currentUser } from '../../config/firebase/autenticacao';
 
 const PlaceholderImage = require('./../../../assets/logo-introducao.png');
 

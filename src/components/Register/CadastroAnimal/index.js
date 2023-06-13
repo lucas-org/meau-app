@@ -5,6 +5,7 @@ import { TextInput, RadioButton, IconButton, Checkbox, Button } from 'react-nati
 import * as ImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { currentUser } from '../../../config/firebase/autenticacao';
 
 import animalService from '../../../services/animalService';
 
@@ -56,9 +57,8 @@ export default function CadastroAnimal({ navigation }) {
                 initialValues={{ nome: '', especie: '', sexo: '', porte: '', idade: '', temperamento: [], saude: [], doencas: '', exigencias: [], tempoAcompanhamentoPosAdocao: '', historia: '' }}
                 onSubmit={values => {
                     values.foto = image;
-                    values.id = '1';
                     values.paraAdocao = true;
-                    values.responsavelId = '1';
+                    values.responsavelId = currentUser().uid;
                     animalService.createAnimal(values).then((res) => console.log(res));
                 }}
                 

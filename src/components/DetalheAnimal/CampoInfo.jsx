@@ -1,11 +1,23 @@
 import { Text } from 'react-native-paper';
 import { View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default function CampoInfo(props) {
     return (
         <View style={{ flexDirection: 'column' }}>
-            <Text>{props.label.toUpperCase()}</Text>
-            <Text>{props.value}</Text>
+            <Text style={styles.label} >{props.label.toUpperCase()}</Text>
+            <Text style={styles.value}>{props.value ? props.value : "Não definido"}</Text>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    label: {
+        fontSize: '18px',
+        color: '#589b9b'
+    },
+    value: {
+        fontSize: '20px',
+        color: '#757575'
+    }
+});
