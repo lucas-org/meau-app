@@ -4,11 +4,15 @@ import animalService from '../../services/animalService';
 import { Button, Text, IconButton, Divider } from 'react-native-paper';
 import CampoInfo from './CampoInfo';
 import { StyleSheet } from 'react-native';
+import { db, dbUse } from '../../config/firebase/firebase';
+import { collection, addDoc, query, and, where,getDocs , doc , updateDoc, getFirestore, deleteDoc } from "firebase/firestore";
+import { currentUser } from '../../config/firebase/autenticacao';
 
 export default function DetalheAnimal({ route, navigation }) {
 
     const { animal } = route.params;
     console.log(animal);
+   
     useEffect(() => {
         navigation.setOptions({ 
             title: animal.nome, 
@@ -63,13 +67,142 @@ export default function DetalheAnimal({ route, navigation }) {
                     <CampoInfo label={"Mais sobre " + animal.nome} value={animal.historia} />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => alert('Click pet adotado')}>ADOTAR PET</Button>&nbsp;&nbsp;&nbsp;
-                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => alert('Click pet removido')}>REMOVER PET</Button>
+                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => mudarDono(animal.responsavelId, currentUser() )}>ADOTAR PET</Button>&nbsp;&nbsp;&nbsp;
+                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => removerDono(animal.responsavelId)}>REMOVER PET</Button>
                 </View>
             </View>
         </View>
     );
 }
+
+async function mudarDono(idListagem, novoDono) {
+    console.log('Responsavel ID');
+    console.log(idListagem);
+
+
+    console.log('Usuario Logado');
+    console.log(novoDono)
+    
+    const listagemCol = collection(db, 'listagem');
+    const listagemAnimais = collection(db, 'animais');
+  
+    //const filtragem = query(collection(db, 'listagem'), where('Responsavel', '==', 'donoexemplo'));
+    //const filtragem2 = query(collection(db, 'listagem'), where('ID', '==', '1'));
+    
+    
+    const filtragemComposta = query(collection(db, 'listagem'),  where('Responsavel', '==', 'donoexemplo'));
+    const filtragemAnimais = query(collection(db, 'animais'),  where('responsavelId', '==', idListagem));
+    
+    console.log(filtragemComposta);
+
+    const querySnapshot = await getDocs(filtragemComposta);
+    let id = null;
+    querySnapshot.forEach((doc) => {
+        //console.log(doc.id, " => ", doc.data());
+        id = doc.id;
+    });
+    console.log('Listagem ID');
+    console.log(id);
+
+    const querySnapshotAnimais = await getDocs(filtragemAnimais);
+    let id2 = null;
+
+    querySnapshotAnimais.forEach((doc) => {
+        //  console.log(doc.id, " => ", doc.data());
+        id2 = doc.id;
+    });
+    //mudar o responsavel pela listagem do animal 
+    
+
+    console.log('AnimalID');
+    console.log(id2);
+
+
+    const docRef = doc(db, "listagem", id);
+    const listagemRef = updateDoc(docRef, {Responsavel: "novoDono"});
+    
+    
+    const docRef2 = doc(db, "animais", id2);
+    const listagemRef2 = updateDoc(docRef2, {responsavelId: "novoDonoAnimal"});
+    
+    console.log(docRef)
+    console.log(docRef2);
+
+    
+    return docRef2;
+   
+    
+  
+    
+}
+
+
+
+async function removerDono(idListagem) {
+    console.log('Responsavel ID');
+    console.log(idListagem);
+    
+    const listagemCol = collection(db, 'listagem');
+    
+    
+    const filtragemComposta = query(collection(db, 'listagem'),  where('responsavelId', '==', idListagem));
+    
+    console.log(filtragemComposta);
+
+    const querySnapshot = await getDocs(filtragemComposta);
+    let id = null;
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        id = doc.id;
+    });
+
+    console.log(id);
+
+    const docRef = doc(db, "animais", id);
+    const listagemRef = deleteDoc(docRef);
+    
+    console.log(docRef)
+
+    return docRef2;  
+}
+
+async function removerAnimal(idListagem) {
+    console.log('Responsavel ID');
+    console.log(idListagem);
+    
+    const listagemCol = collection(db, 'animais');
+    
+    
+    const filtragemComposta = query(collection(db, 'animais'),  where('Responsavel', '==', 'donoexemplo2'));
+    
+    console.log(filtragemComposta);
+
+    const querySnapshot = await getDocs(filtragemComposta);
+    let id = null;
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        id = doc.id;
+    });
+
+    console.log(id);
+
+
+
+    const docRef = doc(db, "listagem", id);
+    const listagemRef = deleteDoc(docRef);
+
+    
+    console.log(docRef)
+
+
+    
+    return docRef2;
+   
+    
+  
+    
+}
+
 
 const styles = StyleSheet.create({
     campo: {
