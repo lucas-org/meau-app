@@ -6,46 +6,12 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { signInUser } from '../../config/firebase/autenticacao';
 import axios from 'axios';
-
-import * as Device from 'expo-device';
+import { registerForPushNotificationsAsync } from '../../config/firebase/autenticacao';
 import * as Notifications from 'expo-notifications';
 
 
-const sendNotification = async (expoPushToken) => {
-  const url = 'https://fcm.googleapis.com/fcm/send';
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'key=AAAAOFcssY4:APA91bFdJbB6tsXdvbDIkTdrWhUB0An1CpdQQLFPxQnOUIZ_KUsTZB9WjQEdQJLZVyUEag0kfuFLon7OBMGQh1N5jPbkxrJhpzIQkwKRWYdMHC_j87Ke-OHDMj_hSy9tWtoN2MUFeWnz',
-  };
-  const data = {
-    to: expoPushToken,
-    priority: 'normal',
-    data: {
-      experienceId: '@akrasia42/meau',
-      scopeKey: '@akrasia42/meau',
-      title: "📧 You've got mail",
-      message: 'Hello world! 🌐',
-    },
-  };
-
-  try {
-    const response = await axios.post(url, data, { headers });
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
-
 // Can use this function below OR use Expo's Push Notification Tool from: https://expo.dev/notifications
-async function sendPushNotification(expoPushToken) {
+/* async function sendPushNotification(expoPushToken) {
   const message = {
     to: expoPushToken,
     sound: 'default',
@@ -63,39 +29,15 @@ async function sendPushNotification(expoPushToken) {
     },
     body: JSON.stringify(message),
   });
-}
+} */
 
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getDevicePushTokenAsync()).data;
-    console.log(token);
-    console.log(Device.brand);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 
 export default function SignIn({ navigation }) {
@@ -128,11 +70,11 @@ export default function SignIn({ navigation }) {
     <SafeAreaView style={{ marginTop: 64 }}>
       <View>
         <Formik
-          initialValues={{ email: '', senha: '' }}
+          initialValues={{ email: 'lucas@gmail.com', senha: '123456' }}
           onSubmit={(values) => {
-            setLoading(true);
-            console.log("values: ", values)
-            signInUser(values).then(() => { [setLoading(false)] });
+            //setLoading(true);
+            //console.log("values: ", values)
+            signInUser(values);
             //navigation.navigate('Home');
           }}
         >
@@ -179,6 +121,7 @@ export default function SignIn({ navigation }) {
           </Button>
 
           <View style={{ alignItems: 'center', justifyContent: 'space-around' }}>
+            <Text>Your expo push token: {expoPushToken}</Text>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <Text>Title: {notification && notification.request.content.title} </Text>
               <Text>Body: {notification && notification.request.content.body}</Text>
@@ -186,10 +129,10 @@ export default function SignIn({ navigation }) {
             </View>
             <Button
               onPress={async () => {
-                await sendNotification(expoPushToken);
+                await sendPushNotification(expoPushToken);
               }}
             >
-              Enviar Notificação
+              Enviar Notificaçãoo
             </Button>
           </View>
         </View>
