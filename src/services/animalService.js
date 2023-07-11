@@ -9,6 +9,8 @@ const animalService = {
         console.log("Document data:", animals);
         return animals;
     },
+    //PEGAR ANIMAIS QUE PODER SER ADOTADOS E QUE NÃO SÃO DO USUÁRIO
+    //PEGAR ANIMAIS QUE TENHAM O MEU RESPONSAVELID
     async createAnimal(animal) {
         const docRef = await addDoc(collection(db, "animais"), animal);
         console.log("Document written with ID: ", docRef.id);
