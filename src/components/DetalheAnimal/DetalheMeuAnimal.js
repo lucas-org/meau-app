@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
 import animalService from '../../services/animalService';
 import { Button, Text, IconButton, Divider } from 'react-native-paper';
 import CampoInfo from './CampoInfo';
@@ -26,7 +26,7 @@ export default function DetalheMeuAnimal({ route, navigation }) {
         }); */
     }, []);
     return (
-        <View>
+        <ScrollView>
             <Image source={{ uri: animal.foto }} style={{ width: "100%", height: 200 }} />
             <IconButton
                 icon="pencil"
@@ -36,7 +36,7 @@ export default function DetalheMeuAnimal({ route, navigation }) {
                 style={{ position: 'absolute', top: 167, left: '80%', backgroundColor: '#fff', borderRadius: 50, boxShadow: '0px 0px 5px #434343' }}
             />
             <View style={{ padding: 16 }}>
-                <Text style={{ fontSize: '25px', color: '#434343'}}>{animal.nome}</Text>
+                <Text style={{ fontSize: 25, color: '#434343'}}>{animal.nome}</Text>
                 <View style={styles.campo}>
                     <CampoInfo label="Sexo" value={animal.sexo} />
                     <CampoInfo label="Porte" value={animal.porte} />
@@ -67,11 +67,11 @@ export default function DetalheMeuAnimal({ route, navigation }) {
                     <CampoInfo label={"Mais sobre " + animal.nome} value={animal.historia} />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => mudarDono(animal.responsavelId, currentUser() )}>VER INTERESSADOS</Button>&nbsp;&nbsp;&nbsp;
+                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => mudarDono(animal.responsavelId, currentUser() )}>VER INTERESSADOS</Button>
                     <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => removerDono(animal.responsavelId)}>REMOVER PET</Button>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
