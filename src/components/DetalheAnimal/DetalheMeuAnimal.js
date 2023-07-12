@@ -11,7 +11,6 @@ import { currentUser } from '../../config/firebase/autenticacao';
 export default function DetalheMeuAnimal({ route, navigation }) {
 
     const { animal } = route.params;
-    console.log(animal);
    
     useEffect(() => {
         navigation.setOptions({ 

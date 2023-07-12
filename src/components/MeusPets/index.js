@@ -1,5 +1,5 @@
  import { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import animalService from '../../services/animalService';
 import { Card, Text, IconButton } from 'react-native-paper';
 
@@ -18,7 +18,7 @@ export default function MeusPets({ navigation }) {
     //const containerStyle = { backgroundColor: 'white', padding: 20 };
 
     return (
-        <View>
+        <ScrollView>
             {animais?.map((animal, index) => (
                 <Card key={index} style={{ margin: 16 }}>
                     <Card.Title style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#cfe9e5' }} title={
@@ -34,6 +34,6 @@ export default function MeusPets({ navigation }) {
                     </Card.Content>
                 </Card>
             ))}
-        </View>
+        </ScrollView>
     );
 }
