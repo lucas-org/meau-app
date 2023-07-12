@@ -7,8 +7,8 @@ import { StyleSheet } from 'react-native';
 import { db, dbUse } from '../../config/firebase/firebase';
 import { collection, addDoc, query, and, where,getDocs , doc , updateDoc, getFirestore, deleteDoc } from "firebase/firestore";
 import { currentUser } from '../../config/firebase/autenticacao';
-import usuarioService from '../../services/usuarioService';
-export default function DetalheAnimal({ route, navigation }) {
+
+export default function DetalheMeuAnimal({ route, navigation }) {
 
     const { animal } = route.params;
    
@@ -24,10 +24,6 @@ export default function DetalheAnimal({ route, navigation }) {
             return state;
         }); */
     }, []);
-
-    const notificar = () => {
-        usuarioService.SendNotificationToAnimalOwner(animal)
-    }
     return (
         <ScrollView>
             <Image source={{ uri: animal.foto }} style={{ width: "100%", height: 200 }} />
@@ -70,7 +66,7 @@ export default function DetalheAnimal({ route, navigation }) {
                     <CampoInfo label={"Mais sobre " + animal.nome} value={animal.historia} />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => {mudarDono(animal.responsavelId, currentUser() ); notificar()}}>ADOTAR PET</Button>
+                    <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => mudarDono(animal.responsavelId, currentUser() )}>VER INTERESSADOS</Button>
                     <Button mode='contained' buttonColor='#88c9bf' textColor='#757575' onPress={() => removerDono(animal.responsavelId)}>REMOVER PET</Button>
                 </View>
             </View>
